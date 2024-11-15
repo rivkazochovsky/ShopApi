@@ -91,6 +91,7 @@ namespace Shope.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            
         }
     }
 }
