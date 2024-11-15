@@ -34,7 +34,6 @@ namespace Service
                 return repository.AddUser(user);
             else
                 return null;
-            //return result.Score;
         }
         public User Login(string UserName, string Password)
         {
