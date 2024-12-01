@@ -2,6 +2,7 @@
 using System.Text.Json;
 using Entite;
 using Service;
+using System.Threading.Tasks;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Shope.Controllers
@@ -50,9 +51,9 @@ namespace Shope.Controllers
         //    return CreatedAtAction(nameof(Get), new { id = user.UserId }, newUser);
 
         //}
-        public ActionResult<User> Post([FromBody] User user)
+        public async Task<ActionResult<User>>  Post([FromBody] User user)
         {
-            User newUser = service.AddUser(user);
+            User newUser = await service.AddUser(user);
             if (newUser != null)
                 return CreatedAtAction(nameof(Get), new { id = user.UserId }, newUser);
             else
@@ -64,14 +65,14 @@ namespace Shope.Controllers
         public int PostPassword([FromQuery] string password)
         {
 
-            return service.CheckPassword(password);
+            return  service.CheckPassword(password);
 
         }
 
         [HttpPost("login")]
-        public ActionResult<User> PostLogin([FromQuery] string UserName,string Password)
+        public async Task<ActionResult<User>>   PostLogin([FromQuery] string UserName,string Password)
         {
-            User user = service.Login(UserName, Password);
+            User user =  await service.Login(UserName, Password);
                     if(user!=null)
                         return Ok(user);
           
@@ -81,7 +82,7 @@ namespace Shope.Controllers
         }
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] User value)
+        public async Task Put(int id, [FromBody] User value)
         {
             service.UpdateUser(id, value);
 
