@@ -8,10 +8,23 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<IServiceUser, ServiceUser>();
+builder.Services.AddScoped<IServiceCategory, ServiceCategory>();
+builder.Services.AddScoped<IServiceOrder, ServiceOrder>();
+builder.Services.AddScoped<IRepositoryOrder, RepositoryOrder>();
+builder.Services.AddScoped<IRepositoryCategory, RepositoryCategory>();
 builder.Services.AddScoped< IRepositoryUser, RepositoryUser>();
+builder.Services.AddScoped<IServiceProduct, ServiceProduct>();
+builder.Services.AddScoped<IRepositoryProduct, RepositoryProduct>();
 builder.Services.AddDbContext<ShopApiContext>(options => options.UseSqlServer("Server=SRV2\\PUPILS;Database=ShopApi;Trusted_Connection=True;TrustServerCertificate=True"));
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 
 // Configure the HTTP request pipeline.
