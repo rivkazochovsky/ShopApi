@@ -20,6 +20,7 @@ namespace Repository
 
         public async Task<Order> AddOrder(Order order)
         {
+     
             _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
             return order;
@@ -28,7 +29,7 @@ namespace Repository
 
         public async Task<Order> GetOrderById(int id)
         {
-            return await _context.Orders.FirstOrDefaultAsync(order => order.OrderId == id);
+            return await _context.Orders.Include(p => p.User).Include(o => o.OrderItems).FirstOrDefaultAsync(order => order.OrderId == id);
 
         }
     }

@@ -3,6 +3,10 @@ using System.Text.Json;
 using Entite;
 using Service;
 using System.Threading.Tasks;
+
+
+using AutoMapper;
+using DTO;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Shope.Controllers
@@ -13,53 +17,46 @@ namespace Shope.Controllers
     public class UserController : ControllerBase
     {
         IServiceUser service ;
-        public UserController(IServiceUser _serviceUser)
+        IMapper _Mapper;
+        public UserController(IServiceUser _serviceUser,IMapper mapper)
         {
             service = _serviceUser;
+            _Mapper = mapper;
         }
         
         // GET: api/<UserController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<UserController>/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
+        //[HttpGet]
+        //public IEnumerable<string> Get()
         //{
-        //    using (StreamReader reader = System.IO.File.OpenText(filePath))
-        //    {
-        //        string? currentUserInFile;
-        //        while ((currentUserInFile = reader.ReadLine()) != null)
-        //        {
-        //            User user = JsonSerializer.Deserialize<User>(currentUserInFile);
-        //            if (user.UserId == id)
-        //                return "USER TO CLIENT";
-        //        }
-        //    }
-        //    return "not user found";
-
+        //    return new string[] { "value1", "value2" };
         //}
+
+        //GET api/<UserController>/5
+        [HttpGet("{id}")]
+        public  async Task<ActionResult<UserDTO>> Get(int id)
+        {
+
+            User User = await service.GetUserById(id);
+            UserDTO userDTO = _Mapper.Map<User, UserDTO>(User);
+
+            return Ok(userDTO);
+
+
+        }
 
         // POST api/<UserController>
         [HttpPost]
-        //public ActionResult<User> Post([FromBody] User user)
-        //{
-        //    User newUser = service.AddUser(user);
-        //    return CreatedAtAction(nameof(Get), new { id = user.UserId }, newUser);
-
-        //}
-        public async Task<ActionResult<User>>  Post([FromBody] User user)
+    
+        public async Task<ActionResult<UserDTO>> Post([FromBody] RegisterUserDTO user)
         {
-            User newUser = await service.AddUser(user);
-            if (newUser != null)
-                return CreatedAtAction(nameof(Get), new { id = user.UserId }, newUser);
-            else
-                return BadRequest();
+      
+            User newuser = _Mapper.Map<RegisterUserDTO, User>(user);
+           User user1= await service.AddUser(newuser);
 
+            return Ok(user1);
         }
+                
+  
         [HttpPost]
         [Route("password")]
         public int PostPassword([FromQuery] string password)
@@ -70,12 +67,13 @@ namespace Shope.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<User>>   PostLogin([FromQuery] string UserName,string Password)
+        public async Task<ActionResult<UserDTO>> PostLogin([FromQuery] string UserName, string Password)
         {
-            User user =  await service.Login(UserName, Password);
-                    if(user!=null)
-                        return Ok(user);
-          
+            User User = await service.Login(UserName, Password);
+            UserDTO user  = _Mapper.Map<User, UserDTO>(User);
+            if (User != null)
+                return Ok(User);
+
             return NoContent();
 
 

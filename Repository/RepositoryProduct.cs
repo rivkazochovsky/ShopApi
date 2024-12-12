@@ -20,7 +20,7 @@ namespace Repository
         //string filePath = "M:\\Api\\Shope\\Shope\\TextFile.txt";
         public async Task<List<Product>> GetProducts()
         {
-            return await _contex.Products.ToListAsync();
+            return await _contex.Products.Include(p => p.Category).ToListAsync();
 
         }
 

@@ -24,7 +24,7 @@ namespace Repository
         //string filePath = "M:\\Api\\Shope\\Shope\\TextFile.txt";
         public async Task <User> GetUserById(int id)
         {
-            return await _contex.Users.FirstOrDefaultAsync(user => user.UserId == id);
+            return await _contex.Users.Include(u => u.Orders).FirstOrDefaultAsync(user => user.UserId == id);
 
         }
 

@@ -20,9 +20,9 @@ namespace Service
             return await repository.AddOrder(order);
         }
 
-        //public async Task<Order> GetOrderbyId(int id)
-        //{
-        //    return await repository.GetOrderById(id);
-        //}
+        public async Task<Order> GetOrderbyId(int id)
+        {
+            return await repository.GetOrderById(id);
+        }
     }
 }

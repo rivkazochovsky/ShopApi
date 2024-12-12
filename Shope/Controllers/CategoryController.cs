@@ -1,4 +1,6 @@
-﻿using Entite;
+﻿using AutoMapper;
+using DTO;
+using Entite;
 using Microsoft.AspNetCore.Mvc;
 using Service;
 
@@ -11,16 +13,26 @@ namespace Shope.Controllers
     public class CategoryController : ControllerBase
     {
         IServiceCategory serviceCategory;
+        IMapper _mapper;
 
-        public CategoryController(IServiceCategory _serviceaCategory)
+        public CategoryController(IServiceCategory _serviceaCategory,IMapper mapper)
         {
             serviceCategory = _serviceaCategory;
+            _mapper = mapper;
         }
         // GET: api/<CategoryController>
         [HttpGet]
         public async Task<ActionResult<List<Category>>> Get()
         {
-            return await serviceCategory.GetCategory();
+            List<Category> categories = await serviceCategory.GetCategory();
+            List<CategoryDTO> categoryDTO = _mapper.Map<List<Category>, List<CategoryDTO>>(categories);
+            if (categoryDTO != null)
+            {
+                return Ok(categoryDTO);
+            }
+            else
+                return NotFound();
+    
         }
 
         // GET api/<CategoryController>/5

@@ -1,4 +1,6 @@
-﻿using Entite;
+﻿using AutoMapper;
+using DTO;
+using Entite;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Service;
@@ -13,15 +15,20 @@ namespace Shope.Controllers
     {
 
         IServiceProduct service;
-        public ProductController(IServiceProduct _serviceProduct)
+        IMapper _Mapper;
+        public ProductController(IServiceProduct _serviceProduct,IMapper mapper)
         {
             service = _serviceProduct;
+            _Mapper = mapper;
         }
         // GET: api/<ProductController>
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> Get()
+        public async Task<ActionResult<List<ProductDTO>>> Get()
+
         {
-            return await service.GetProducts();
+            List<Product> Products = await service.GetProducts();
+            List<ProductDTO> productsDTO = _Mapper.Map<List<Product>, List<ProductDTO>>(Products);
+            return Ok(productsDTO);
         }
 
         // GET api/<ProductController>/5
