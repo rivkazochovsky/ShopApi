@@ -45,7 +45,7 @@ namespace Repository
 
         }
 
-        public async Task UpdateUser(int id, User value)
+        public async Task UpdateUser(int id, User value)//return user
         {
             _contex.Users.Update(value);
             await _contex.SaveChangesAsync();
