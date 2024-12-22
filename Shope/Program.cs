@@ -11,15 +11,15 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IServiceUser, ServiceUser>();
 
+builder.Services.AddScoped<IRepositoryUser, RepositoryUser>();
+
 builder.Services.AddScoped<IServiceCategory, ServiceCategory>();
+
+builder.Services.AddScoped<IRepositoryCategory, RepositoryCategory>();
 
 builder.Services.AddScoped<IServiceOrder, ServiceOrder>();
 
 builder.Services.AddScoped<IRepositoryOrder, RepositoryOrder>();
-
-builder.Services.AddScoped<IRepositoryCategory, RepositoryCategory>();
-
-builder.Services.AddScoped< IRepositoryUser, RepositoryUser>();
 
 builder.Services.AddScoped<IServiceProduct, ServiceProduct>();
 

@@ -45,16 +45,16 @@ namespace Shope.Controllers
         }
 
         // POST api/<UserController>
-        [HttpPost]
+        //[HttpPost]
     
-        public async Task<ActionResult<UserDTO>> Post([FromBody] RegisterUserDTO user)
-        {
+        //public async Task<ActionResult<UserDTO>> Post([FromBody] RegisterUserDTO user)
+        //{
       
-            User newuser = _Mapper.Map<RegisterUserDTO, User>(user);
-           User user1= await service.AddUser(newuser);
+        //    User newuser = _Mapper.Map<RegisterUserDTO, User>(user);
+        //   User user1= await service.AddUser(newuser);
 
-            return Ok(user1);
-        }
+        //    return Ok(user1);
+        //}
                 
   
         [HttpPost]
@@ -66,12 +66,33 @@ namespace Shope.Controllers
 
         }
 
+        [HttpPost]
+        //public ActionResult<User> Post([FromBody] User user)
+        //{
+        //    User newUser = service.AddUser(user);
+        //    return CreatedAtAction(nameof(Get), new { id = user.UserId }, newUser);
+
+        //}
+        public async Task<ActionResult<UserDTO>> Post([FromBody] RegisterUserDTO user)
+        {
+            User newUser = _Mapper.Map<RegisterUserDTO, User>(user);
+            User userDTO = await service.AddUser(newUser);
+
+            UserDTO newUserDTO = _Mapper.Map<User, UserDTO>(userDTO);//////////////////////////////////////////////////////////
+            if (newUserDTO != null)
+                return CreatedAtAction(nameof(Get), new { id = user.UserName }, newUserDTO);
+            else
+                return BadRequest(newUserDTO);
+
+
+        }
+
         [HttpPost("login")]
         public async Task<ActionResult<UserDTO>> PostLogin([FromQuery] string UserName, string Password)
         {
             User User = await service.Login(UserName, Password);
-            UserDTO user  = _Mapper.Map<User, UserDTO>(User);
-            if (User != null)
+            UserDTO userDTO  = _Mapper.Map<User, UserDTO>(User);
+            if (userDTO != null)
                 return Ok(User);
 
             return NoContent();
@@ -80,9 +101,10 @@ namespace Shope.Controllers
         }
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public async Task Put(int id, [FromBody] User value)
+        public async Task Put(int id, [FromBody] UserDTO value)
         {
-            service.UpdateUser(id, value);
+            User user = _Mapper.Map<UserDTO, User>(value);
+            await service.UpdateUser(id, user);
 
         }
 

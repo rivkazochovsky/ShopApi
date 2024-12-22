@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿
+using AutoMapper;
 using DTO;
 using Entite;
 
@@ -11,11 +12,20 @@ namespace Shope
         {
 
             CreateMap<User, UserDTO>();
+
             CreateMap<Order, OrderDTO>();
+
             CreateMap<Product, ProductDTO>();
+
             CreateMap<Category, CategoryDTO>();
+
             CreateMap<RegisterUserDTO, User>();
+
             CreateMap<PostOrderDTO, Order>();
+
+            CreateMap<OrderItemDTO, OrderItem>();
+
+            CreateMap<OrderItem, OrderItemDTO>();
 
 
         }

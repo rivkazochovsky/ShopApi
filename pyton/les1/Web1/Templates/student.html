@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>student details</title>
+</head>
+<body>
+<!--<h1>{% now "Y-m-d" %}</h1>-->
+<!--<h2>Details for {{name | upper }}</h2>-->
+<!--<h3> Average grade: {{avg}}</h3>-->
+<!--<ul>-->
+<!--{% for course, grade in courses.items %}-->
+<!--  {% if grade > 90 %}-->
+<!--  <li style="color:green">-->
+<!--    {{course}} {{grade}}-->
+<!--  </li>-->
+<!--  {% elif grade < 60 %}-->
+<!--  <li style="color:red">-->
+<!--    {{course}} {{grade}}-->
+<!--  </li>-->
+<!--  {% else %}-->
+<!--  <li>-->
+<!--    {{course}} {{grade}}-->
+<!--  </li>-->
+<!--  {% endif %}-->
+<!--{% endfor %}-->
+<!--  </ul>-->
+<form method="post">
+    {% csrf_token %}
+ {{personForm}}
+    <button type="submit">Save</button>
+</form>
+
+<ul>
+    {% for student in students %}
+    <li>{{student}}</li>
+    {%endfor%}
+</ul>
+{% endblock %}
+</body>
+</html>

@@ -23,10 +23,10 @@ namespace Shope.Controllers
         }
         // GET: api/<ProductController>
         [HttpGet]
-        public async Task<ActionResult<List<ProductDTO>>> Get()
+        public async Task<ActionResult<List<ProductDTO>>> Get([FromQuery] int? minPrice, [FromQuery] int? maxPrice, [FromQuery] int?[] categoryIds, [FromQuery] string? desc)
 
         {
-            List<Product> Products = await service.GetProducts();
+            List<Product> Products = await service.GetProducts(minPrice, maxPrice, categoryIds, desc);
             List<ProductDTO> productsDTO = _Mapper.Map<List<Product>, List<ProductDTO>>(Products);
             return Ok(productsDTO);
         }

@@ -17,6 +17,7 @@ namespace Repository
         {
             _contex = shopApiContext;
         }
+        
 
         public async Task<List<Category>> GetCategory()
         {

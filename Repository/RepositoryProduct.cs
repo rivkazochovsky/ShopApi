@@ -18,9 +18,18 @@ namespace Repository
             _contex = shopApiContext;
         }
         //string filePath = "M:\\Api\\Shope\\Shope\\TextFile.txt";
-        public async Task<List<Product>> GetProducts()
+        public async Task<List<Product>> GetProducts(int ? minPrice, int ? maxPrice, int ?[] categoryIds, string ? desc)
         {
-            return await _contex.Products.Include(p => p.Category).ToListAsync();
+
+            var query = _contex.Products.Where(Product =>
+            (desc==null ?(true):(Product.Descreption.Contains(desc)))
+ &&(minPrice == null ? (true) : (Product.Price >= minPrice))
+ && ((maxPrice == null) ? (true) : (Product.Price <= maxPrice))
+  && ((categoryIds.Length == 0) ? (true) : (categoryIds.Contains(Product.CategoryId))))
+.OrderBy(Product => Product.Price).Include(p=>p.Category);
+            Console.WriteLine(query.ToQueryString());
+            List<Product> products = await query.ToListAsync();
+            return products;
 
         }
 

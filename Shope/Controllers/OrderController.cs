@@ -25,8 +25,8 @@ namespace Shope.Controllers
         [HttpGet("{id}")]
         public async Task <ActionResult<Order>>  Get(int id)
         {
-            Order order1 = await service.GetOrderbyId(id);
-            OrderDTO orderDTO = Mapper.Map<Order, OrderDTO>(order1);
+            Order order = await service.GetOrderbyId(id);
+            OrderDTO orderDTO = Mapper.Map<Order, OrderDTO>(order);
             return Ok(orderDTO); 
         }
 
@@ -38,7 +38,7 @@ namespace Shope.Controllers
             Order order1 = Mapper.Map<PostOrderDTO, Order>(order);
             Order order2 = await service.AddOrder(order1);
 
-            return Ok(order2);
+            return Ok(order);
 
 
 
