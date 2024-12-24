@@ -31,7 +31,6 @@ namespace Repository
         public async Task<Order> GetOrderById(int id)
         {
             return await _context.Orders.Include(p => p.User).Include(o => o.OrderItems).FirstOrDefaultAsync(order => order.OrderId == id);
-
         }
     }
 }

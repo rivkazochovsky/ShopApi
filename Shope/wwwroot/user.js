@@ -88,8 +88,8 @@ const login = async () => {
         else { 
             const dataPost = await responsePost.json();
             sessionStorage.setItem("userId", dataPost.userId)
-
-            window.location.href = "htmlpage.html"
+            alert("sss")
+            window.location.href = "Products.html";
         }
     }
     catch (Error) {

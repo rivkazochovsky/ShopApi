@@ -8,5 +8,5 @@ using Entite;
 
 namespace DTO
 {
-    public record ProductDTO(string ProductName, string Descreption , string CategoryCategoryName ,double Price);
+    public record ProductDTO(int Productid,string ProductName, string Descreption, string CategoryCategoryName ,double Price,string? Image);
 }
