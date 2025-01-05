@@ -75,8 +75,14 @@ const placeOrder = async () => {
 
     });
     alldetialss = await orderss.json();
-    if (orderss.ok) 
+    if (orderss.ok) {
         alert("nice")
+        sessionStorage.setItem("basket", JSON.stringify([]))
+        location.reload()
+        window.location.href = "Products.html";
+
+    }
+ 
     
     else 
         alert("😒")
