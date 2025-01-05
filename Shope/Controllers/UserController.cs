@@ -93,7 +93,7 @@ namespace Shope.Controllers
             User User = await service.Login(UserName, Password);
             UserDTO userDTO  = _Mapper.Map<User, UserDTO>(User);
             if (userDTO != null)
-                return Ok(User);
+                return Ok(userDTO);
 
             return NoContent();
 

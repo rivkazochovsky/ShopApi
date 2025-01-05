@@ -3,9 +3,11 @@ const productList = addEventListener("load", async () => {
     DrawProducts()
     CategoryList()
     let categoryIdArr = [];
-    let basketarr = [];
+    let basketarr = JSON.parse(sessionStorage.getItem("basket"))||[];
     sessionStorage.setItem("categoryIds", JSON.stringify(categoryIdArr))
     sessionStorage.setItem("basket", JSON.stringify(basketarr))
+    document.querySelector("#ItemsCountText").innerHTML = basketarr.length 
+
 })
 
 
@@ -39,7 +41,7 @@ const DrawProducts = async () => {
     const { nameSearch, minPrice, maxPrice, categoryIds1 } = await GetDitialfromfrom();
     console.log(categoryIds1)
     let url =`api/Product/`
-    if (minPrice || maxPrice || nameSearch || categoryIds1)
+    if (minPrice || maxPrice || nameSearch || categoryIds1) { 
         url += '?'
     if (nameSearch!='')
         url += `&desc=${nameSearch}`
@@ -52,7 +54,7 @@ const DrawProducts = async () => {
             url += `&categoryIds=${categoryIds1[i]}`
         }
     }
-  
+  }
        
 
     const AllProducts = await fetch(url, {
@@ -122,7 +124,7 @@ const addToCart = (product) => {
 
         let myCart = JSON.parse(sessionStorage.getItem("basket"))
         myCart.push(product.productid)
-        sessionStorage.setItem("basket", JSON.stringify(myCart))
+        sessionStorage.setItem("basket",JSON.stringify(myCart))
 
         document.querySelector("#ItemsCountText").innerHTML = myCart.length 
     }

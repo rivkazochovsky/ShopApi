@@ -16,10 +16,10 @@ namespace Service
         {
             repository = _repositoryProduct;
         }
-        //public async Task<Product> GetProductbyId(int id)
-        //{
-        //    return await repository.GetProductById(id);
-        //}
+        public async Task<Product> GetProductbyId(int id)
+        {
+            return await repository.GetProductById(id);
+        }
 
         public async Task<List<Product>> GetProducts(int? minPrise, int? maxPrise, int?[] categoryIds, string? desc)
         {
