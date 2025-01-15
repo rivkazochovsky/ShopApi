@@ -120,7 +120,7 @@ const showOneCategory = async (category) => {
     document.getElementById("categoryList").appendChild(cloneCategory)
 }
 const addToCart = (product) => {
-    if (sessionStorage.getItem("userId")) {
+  /*  if (sessionStorage.getItem("userId")) {*/
 
         let myCart = JSON.parse(sessionStorage.getItem("basket"))
         myCart.push(product.productid)
@@ -128,11 +128,11 @@ const addToCart = (product) => {
 
         document.querySelector("#ItemsCountText").innerHTML = myCart.length 
     }
-    else {
-        alert("אינך רשום")
-        window.location.href = "user.html"
-    }
-}
+ 
+        //alert("אינך רשום")
+        //window.location.href = "user.html"
+    
+
 
 const FilterCategory = (category) => {
 

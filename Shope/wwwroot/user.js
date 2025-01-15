@@ -89,7 +89,7 @@ const login = async () => {
             const dataPost = await responsePost.json();
             sessionStorage.setItem("userId", dataPost.userId)
             alert("sss")
-            window.location.href = "Products.html";
+            window.location.href = "ShoppingBag.html";
         }
     }
     catch (Error) {
