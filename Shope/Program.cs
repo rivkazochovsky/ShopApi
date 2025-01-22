@@ -2,8 +2,11 @@ using Microsoft.EntityFrameworkCore;
 using Repository;
 using Service;
 using Microsoft.Extensions.Configuration;
+using Shope;
+using NLog.Web;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 
@@ -25,6 +28,11 @@ builder.Services.AddScoped<IServiceProduct, ServiceProduct>();
 
 builder.Services.AddScoped<IRepositoryProduct, RepositoryProduct>();
 
+
+builder.Services.AddScoped<IRatingRepository, RatingRepository>();
+builder.Services.AddScoped<IRatingService, RatingService>();
+
+
 builder.Services.AddDbContext<ShopApiContext>(options => options.UseSqlServer("Server=SRV2\\PUPILS;Database=ShopApi;Trusted_Connection=True;TrustServerCertificate=True"));
 //builder.Configuration["seminar"];
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -32,6 +40,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
+
+builder.Host.UseNLog();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
@@ -42,8 +52,8 @@ if (app.Environment.IsDevelopment())
 
 
 // Configure the HTTP request pipeline.
-
-app.UseHttpsRedirection();
+app.UseRatingMiddleware();
+    app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseAuthorization();

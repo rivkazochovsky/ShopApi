@@ -13,11 +13,12 @@ namespace Shope.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-
+        private readonly ILogger<ProductController> _logger;
         IServiceProduct service;
         IMapper _Mapper;
-        public ProductController(IServiceProduct _serviceProduct,IMapper mapper)
+        public ProductController(IServiceProduct _serviceProduct,IMapper mapper,ILogger<ProductController>logger)
         {
+       
             service = _serviceProduct;
             _Mapper = mapper;
         }
