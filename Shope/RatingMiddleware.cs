@@ -15,7 +15,7 @@ namespace Shope
         {
             _next = next;
         }
-
+        
         public async Task Invoke(HttpContext httpContext, IRatingService raitingService)
         {
             Rating rating = new()
