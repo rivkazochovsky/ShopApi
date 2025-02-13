@@ -45,22 +45,31 @@ const showProductBasket = async (product) => {
     showOneProduct(shopingBag);
  
 }
-const showOneProduct = async (product) => {
-    price += product.price
+const showOneProduct = (product) => {
+    price += product.price;
+    let url = `./Images/${product.image}`
 
-    const url =`./Images/${product.image}`
+    console.log(url)
+    console.log(product.image)
+    console.log(product)
+
     let tmp = document.getElementById("temp-row");
     let cloneProduct = tmp.content.cloneNode(true)
-    cloneProduct.querySelector(".image").style.backgroundImage  = `url(${url})` 
-    cloneProduct.querySelector(".descriptionColumn").textContent = product.descreption
-    cloneProduct.querySelector(".availabilityColumn").innerText = true;
+
+    cloneProduct.querySelector(".image").style.backgroundImage = `url(${url})`
+    //cloneProduct.querySelector(".descriptionColumn").innerText = product.description
+    cloneProduct.querySelector(".itemName").innerText = product.productName
+
+    //cloneProduct.querySelector(".availabilityColumn").innerText = "true"
+    cloneProduct.querySelector(".availabilityColumn").innerText = "true"
+
+    cloneProduct.querySelector(".price").innerText = product.price + ' ₪'
     cloneProduct.querySelector(".expandoHeight").addEventListener('click', () => { deleteproduct(product) })
-
-
     document.getElementById("totalAmount").textContent = price + ' ₪'
 
     document.querySelector("tbody").appendChild(cloneProduct)
-};
+
+}
 
 const detials = () => {
     let UserId = JSON.parse(sessionStorage.getItem("userId"))
@@ -72,8 +81,8 @@ const detials = () => {
         OrderItems.push(object)
     })
 
-    let OrderSum = 100
-    let OrderDate = "2025-01-05"
+    let OrderSum = price;
+    let OrderDate = "2025-01-13"
    /* OrderDate=OrderDate.toLocaleDateString()*/
     return ({
         OrderDate,OrderSum, UserId, OrderItems, 
