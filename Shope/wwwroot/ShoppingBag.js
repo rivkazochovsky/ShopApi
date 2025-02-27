@@ -90,33 +90,44 @@ const detials = () => {
 }
 
 const placeOrder = async () => {
-    if (sessionStorage.getItem("userId")) {
-        let alldetials = detials()
-        const orderss = await fetch('api/Order', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+    if (price != 0) {
+        if (sessionStorage.getItem("userId")) {
+            let alldetials = detials()
+            const orderss = await fetch('api/Order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
 
-            body: JSON.stringify(alldetials)
+                body: JSON.stringify(alldetials)
 
-        });
-        alldetialss = await orderss.json();
-        if (orderss.ok) {
-            alert("ההזמנה נוספה בהצלחה")
-            window.location.href = "Products.html";
-            sessionStorage.setItem("basket", JSON.stringify([]))
-            
+            });
+            ordderJson = await orderss.json();
+            console.log(ordderJson)
+            if (orderss.ok) {
+               
+                alert(`הזמנה ${ordderJson.orderId}  בוצעה בהצלחה `)
 
+                sessionStorage.setItem("basket", JSON.stringify([]))
+                window.location.href = "Products.html"
+
+            }
         }
+        else {
+
+            alert("אינך רשום")
+            window.location.href = "user.html"
+        }
+
+
     }
     else {
-
-    alert("אינך רשום")
-    window.location.href = "user.html" }
+        alert("הסל ריק")
+        window.location.href = "Products.html";
+    }
+ 
+    }
     
-   
-}
 
 const deleteproduct = async (product) => {
     const cartString = JSON.parse(sessionStorage.getItem("basket")) || [];

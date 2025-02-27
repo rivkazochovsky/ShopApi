@@ -23,22 +23,23 @@ namespace Shope.Controllers
      
         // GET api/<OrderController>/5
         [HttpGet("{id}")]
-        public async Task <ActionResult<Order>>  Get(int id)
+        public async Task <ActionResult<OrderDTO>>  Get(int id)
         {
             Order order = await service.GetOrderbyId(id);
-            OrderDTO orderDTO = Mapper.Map<Order, OrderDTO>(order);
-            return Ok(orderDTO); 
+            if (order != null)
+                return Ok(Mapper.Map<Order, OrderDTO>(order));
+            return NotFound();
         }
 
         // POST api/<OrderController>
         [HttpPost]
-        public async Task<ActionResult<Order>> Post([FromBody] PostOrderDTO order)
+        public async Task<ActionResult<OrderDTO>> Post([FromBody] PostOrderDTO order)
         {
 
-            Order order1 = Mapper.Map<PostOrderDTO, Order>(order);
-            Order order2 = await service.AddOrder(order1);
-
-            return Ok(order);
+            Order newOrder = await service.AddOrder(Mapper.Map<PostOrderDTO, Order>(order));
+            if (newOrder != null)
+                return CreatedAtAction(nameof(Get), new { id = newOrder.OrderId }, Mapper.Map<Order, OrderDTO>(newOrder));
+            return BadRequest();
 
 
 
