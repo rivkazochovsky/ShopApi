@@ -43,7 +43,7 @@ namespace Shope.Controllers
           return _Mapper.Map<Product, ProductDTO>(product1);
             
         }
-
+        
         //// POST api/<ProductController>
         //[HttpPost]
         //public async Task<ActionResult<Product>> Post([FromBody] Product product)

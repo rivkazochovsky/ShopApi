@@ -53,7 +53,7 @@ if (app.Environment.IsDevelopment())
 
 // Configure the HTTP request pipeline.
 app.UseRatingMiddleware();
-app.TryCatchMiddleware();
+//app.TryCatchMiddleware();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

@@ -30,7 +30,11 @@ namespace Shope.Controllers
                 return Ok(Mapper.Map<Order, OrderDTO>(order));
             return NotFound();
         }
-
+        /// <summary>
+        
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
         // POST api/<OrderController>
         [HttpPost]
         public async Task<ActionResult<OrderDTO>> Post([FromBody] PostOrderDTO order)
