@@ -137,7 +137,6 @@ const deleteproduct = async (product) => {
     console.log(current)
     cartString.splice(current, 1)
     sessionStorage.setItem("basket", JSON.stringify(cartString));
-/*    location.reload()*/
     DrawBacket()
 }
 

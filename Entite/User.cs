@@ -10,7 +10,7 @@ public partial class User
     [EmailAddress]
     public string UserName { get; set; } = null!;
 
-    [StringLength(20, ErrorMessage = "password can be betwenn 2 till 20 letters", MinimumLength = 2)]
+    //[StringLength(20, ErrorMessage = "password can be betwenn 2 till 20 letters", MinimumLength = 2)]
 
     public string Password { get; set; } = null!;
 

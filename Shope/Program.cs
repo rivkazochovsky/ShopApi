@@ -6,7 +6,22 @@ using Shope;
 using NLog.Web;
 
 var builder = WebApplication.CreateBuilder(args);
+string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
+string connectionString;
+
+if (environment == "Home")
+{
+    connectionString = builder.Configuration.GetConnectionString("HomeConnection");
+}
+else if (environment == "School")
+{
+    connectionString = builder.Configuration.GetConnectionString("SchoolConnection");
+}
+else
+{
+    throw new Exception("Unknown environment");
+}
 
 // Add services to the container.
 
@@ -31,9 +46,8 @@ builder.Services.AddScoped<IRepositoryProduct, RepositoryProduct>();
 
 builder.Services.AddScoped<IRatingRepository, RatingRepository>();
 builder.Services.AddScoped<IRatingService, RatingService>();
+builder.Services.AddDbContext<ShopApiContext>(options => options.UseSqlServer(connectionString));
 
-
-builder.Services.AddDbContext<ShopApiContext>(options => options.UseSqlServer("Server=SRV2\\PUPILS;Database=ShopApi;Trusted_Connection=True;TrustServerCertificate=True"));
 //builder.Configuration["seminar"];
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

@@ -16,10 +16,10 @@ namespace Shope.Controllers
 
     public class UserController : ControllerBase
     {
-        private readonly ILogger<ProductController> _logger;
+        private readonly ILogger<UserController> _logger;
         IServiceUser service ;
         IMapper _Mapper;
-        public UserController(IServiceUser _serviceUser,IMapper mapper, ILogger<ProductController> logger)
+        public UserController(IServiceUser _serviceUser,IMapper mapper, ILogger<UserController> logger)
         {
             _logger = logger;
             service = _serviceUser;
@@ -84,9 +84,22 @@ namespace Shope.Controllers
             if (newUserDTO != null)
                 return CreatedAtAction(nameof(Get), new { id = user.UserName }, newUserDTO);
             else
-                return BadRequest(newUserDTO);
+                if (!ModelState.IsValid)
+
+            {
+
+                var errors = ModelState.SelectMany(ms => ms.Value.Errors)
+
+                .Select(error => error.ErrorMessage)
+
+                .ToList();
+
+                return BadRequest(errors); // מחזיר את השגיאות
+
+            }
 
 
+            return BadRequest(newUserDTO);
         }
 
         [HttpPost("login")]
@@ -103,7 +116,9 @@ namespace Shope.Controllers
             }
                
 
-            return NoContent();
+            // החזרת השגיאות מה-DTO
+            return BadRequest(ModelState);
+        
 
 
         }

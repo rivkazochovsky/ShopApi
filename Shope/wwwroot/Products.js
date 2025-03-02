@@ -10,7 +10,21 @@ const productList = addEventListener("load", async () => {
 
 })
 
+const getAllDetailsFromFormForRegister = () => {
+    const UserName = document.getElementById("username").value
+    const Password = document.querySelector("#password").value
+    const FirstName = document.querySelector("#firstname").value
+    const LastName = document.querySelector("#lastname").value
+    if (!UserName || !Password || !FirstName || !LastName) {
 
+        alert("all filed is requred")
+    }
+    else {
+        return ({
+            UserName, Password, FirstName, LastName
+        })
+    }
+}
 
 const GetDitialfromfrom = async () => {
     //document.getElementById("Productlist").innerHTML=''
@@ -144,6 +158,29 @@ const FilterCategory = (category) => {
     DrawProducts()
 
 }
+
+
+
+   
+    const update = async () => {
+        newUser = getAllDetailsFromFormForRegister()
+
+        const responsePut = await fetch(`api/user/${sessionStorage.getItem('userId')}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newUser)
+        });
+        if (responsePut.ok) {
+
+            alert("update sucsses")
+        }
+        else
+            alert("update not sucsses")
+    }
+
+
 /*DrawProducts()*/
 
 

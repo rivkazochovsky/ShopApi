@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Repository;
 using Entite;
 using Zxcvbn;
+using Microsoft.Extensions.Logging;
 
 
 namespace Service
@@ -13,10 +14,12 @@ namespace Service
     public class ServiceUser : IServiceUser
 
     {
+        private readonly ILogger<ServiceUser> _logger;
 
         IRepositoryUser repository;
-        public ServiceUser(IRepositoryUser _repositoryUser)
+        public ServiceUser(IRepositoryUser _repositoryUser, ILogger<ServiceUser> logger)
         {
+            _logger = logger;
             repository = _repositoryUser;
         }
 
@@ -42,6 +45,8 @@ namespace Service
 
         public async Task UpdateUser(int id, User value)
         {
+            if(CheckPassword(value.Password) >= 2)
+                throw new Exception("Password is not strong enough");
            await repository.UpdateUser(id, value);
         }
         public int CheckPassword(string password)

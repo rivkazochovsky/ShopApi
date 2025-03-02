@@ -1,4 +1,5 @@
 ﻿using Entite;
+using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using Repository;
@@ -12,17 +13,29 @@ namespace Service
 {
     public class ServiceOrder : IServiceOrder
     {
+        private readonly ILogger<ServiceOrder> _logger;
+
         IRepositoryProduct repository2;
         IRepositoryOrder repository;
-        public ServiceOrder(IRepositoryOrder _repositoryOrder, IRepositoryProduct repository22)
+        public ServiceOrder(IRepositoryOrder _repositoryOrder, IRepositoryProduct repository22, ILogger<ServiceOrder> logger)
         {
             repository = _repositoryOrder;
             repository2 = repository22;
+            _logger = logger;
         }
         public async Task<Order> AddOrder(Order order)
         {
-            if(await GetcureenrSumProduct(order)!=order.OrderSum) 
-                order.OrderSum=await GetcureenrSumProduct(order);
+
+            double sum= await GetcureenrSumProduct(order);
+            if(sum!=order.OrderSum)
+            {
+                order.OrderSum = sum;
+               
+                    _logger.LogCritical(" order sum not good");
+               
+              
+            }
+            
 
             return await repository.AddOrder(order);
         }
