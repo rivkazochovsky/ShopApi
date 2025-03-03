@@ -128,7 +128,7 @@ namespace Shope.Controllers
         {
             User user = _Mapper.Map<UserDTO, User>(value);
             await service.UpdateUser(id, user);
-
+// Task<user>
         }
 
         // DELETE api/<UserController>/5
