@@ -27,15 +27,20 @@ namespace Repository
             return await _contex.Users.Include(u => u.Orders).FirstOrDefaultAsync(user => user.UserId == id);
 
         }
-
-        public async Task <User> AddUser(User user)
+        public async Task<User> AddUser(User user)
         {
             _contex.Users.AddAsync(user);
             await _contex.SaveChangesAsync();
             return user;
 
+
+
         }
-        
+        public async Task<User> ValidateDuplicateUser(string UserName, string Password)
+        {
+            User checkUser = await _contex.Users.FirstOrDefaultAsync(user1 => user1.UserName == UserName && user1.Password == Password);
+            return checkUser;
+        }
 
 
 
@@ -45,10 +50,20 @@ namespace Repository
 
         }
 
-        public async Task UpdateUser(int id, User value)
+        public async Task<User> UpdateUser(int id, User value)
         {
-            _contex.Users.Update(value);
-            await _contex.SaveChangesAsync();
+
+            value.UserId = id;
+           
+                _contex.Users.Update(value);
+                await _contex.SaveChangesAsync();
+                return value;
+            
+          
+
+
+           
+          
                
 
         }

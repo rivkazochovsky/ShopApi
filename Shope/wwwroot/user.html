@@ -1,14 +1,38 @@
-﻿<!DOCTYPE html>
+﻿<!--<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>התחברות</title>
-    <script defer src="user.js"></script>
 
+    <title></title>
+    <script defer src="user.js"></script>
+</head>
+<body>
+
+    <input id="username" type="text" required placeholder="שם משתמש" /><br />
+    <input id="password" type="password" required placeholder="סיסמא" onblur="checkPassword()"/><br />
+    <br/>
+    <progress id="progress" min="0" max="4" value="0"></progress>
+    <input id="firstname" type="text" required placeholder="שם פרטי" /><br />
+    <input id="lastname" type="text" required placeholder="שם משפחה" /><br />
+    <button onclick="register()">רישום</button>
+    <br />
+    <input id="username2" type="email" placeholder="שם משתמש" /><br />
+    <input id="password2" type="password" placeholder="סיסמא" /><br />
+    <button onclick="login()">התחברות</button>
+</body>
+
+
+</html>-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Login</title>
+    <script defer src="user.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #e0f7e0;
+            background-color: #f0f0f0;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -27,7 +51,6 @@
 
             .container h2 {
                 margin-bottom: 20px;
-                color: #2e7d32;
             }
 
             .container input {
@@ -50,7 +73,7 @@
             }
 
                 .container button:hover {
-                    background-color: #388e3c;
+                    background-color: #45a049;
                 }
 
         .toggle-link {
@@ -69,24 +92,22 @@
 <body>
     <div class="container" id="loginContainer">
         <h2>התחברות</h2>
-        <input id="username2" type="email" placeholder="שם משתמש" required /><br />
-        <input id="password2" type="password" placeholder="סיסמא" required /><br />
+        <input id="username2" type="email" placeholder="שם משתמש" /><br />
+        <input id="password2" type="password" placeholder="סיסמא" /><br />
         <button onclick="login()">התחברות</button>
-        <span class="toggle-link" onclick="toggleRegister()">לא רשום עדיין?</span>
+        <span class="toggle-link" onclick="toggleRegister()">עדיין לא רשום?</span>
     </div>
-
     <div class="container hidden" id="registerContainer">
         <h2>רישום</h2>
         <input id="username" type="text" required placeholder="שם משתמש" /><br />
         <input id="password" type="password" required placeholder="סיסמא" onblur="checkPassword()" /><br />
-        <div class="progress-container">
-            <progress id="progress" min="0" max="4" value="0"></progress>
-        </div>
+        <br />
+        <progress id="progress" min="0" max="4" value="0"></progress>
         <input id="firstname" type="text" required placeholder="שם פרטי" /><br />
         <input id="lastname" type="text" required placeholder="שם משפחה" /><br />
-        <button onclick="registerAndToggle()">רישום</button>
+        <button onclick="register()">רישום</button>
+        <span class="toggle-link" onclick="toggleRegister()">כבר רשום?</span>
     </div>
-
     <script>
         function toggleRegister() {
             var loginContainer = document.getElementById('loginContainer');
@@ -94,14 +115,9 @@
             loginContainer.classList.toggle('hidden');
             registerContainer.classList.toggle('hidden');
         }
-
-        function registerAndToggle() {
-            // כאן תוכל להוסיף את הלוגיקה לרישום המשתמש
-            // לאחר הרישום, נחליף חזרה לטופס ההתחברות
-            toggleRegister();
-        }
     </script>
 </body>
 </html>
+
 
 

@@ -23,7 +23,7 @@ namespace Service
             repository = _repositoryUser;
         }
 
- 
+
         public async Task<User> GetUserById(int id)
         {
             return await repository.GetUserById(id);
@@ -32,27 +32,30 @@ namespace Service
 
         public async Task<User> AddUser(User user)
         {
-            int passwordStrength = CheckPassword(user.Password);
-            if (passwordStrength >= 2)
+            
                 return await repository.AddUser(user);
-            else
-                return null;
+        
+               
         }
         public async Task<User> Login(string UserName, string Password)
         {
-            return  await repository.Login(UserName, Password);
+            return await repository.Login(UserName, Password);
         }
 
-        public async Task UpdateUser(int id, User value)
+        public async Task<User> updateuser(int id, User user)
         {
-            if(CheckPassword(value.Password) >= 2)
-                throw new Exception("Password is not strong enough");
-           await repository.UpdateUser(id, value);
+          
+            return await repository.UpdateUser(id, user);
         }
         public int CheckPassword(string password)
         {
             var result = Zxcvbn.Core.EvaluatePassword(password);
             return result.Score;
+        }
+
+        public async Task<User> ValidateDuplicateUser(string UserName, string Password)
+        {
+            return await repository.ValidateDuplicateUser(UserName, Password);
         }
 
     }

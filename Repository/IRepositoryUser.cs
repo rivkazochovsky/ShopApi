@@ -8,6 +8,8 @@ namespace Repository
         Task<User> GetUserById(int id);
         Task<User> Login(string UserName, string Password);
         
-        Task UpdateUser(int id, User value);
+        Task<User> UpdateUser(int id, User value);
+
+        Task<User> ValidateDuplicateUser(string UserName, string Password);
     }
 }

@@ -46,62 +46,52 @@ namespace Shope.Controllers
 
         }
 
-        // POST api/<UserController>
-        //[HttpPost]
-    
-        //public async Task<ActionResult<UserDTO>> Post([FromBody] RegisterUserDTO user)
-        //{
-      
-        //    User newuser = _Mapper.Map<RegisterUserDTO, User>(user);
-        //   User user1= await service.AddUser(newuser);
 
-        //    return Ok(user1);
-        //}
-                
-  
+
         [HttpPost]
         [Route("password")]
-        public int PostPassword([FromQuery] string password)
+        public IActionResult PostPassword([FromQuery] string password)
         {
-
-            return  service.CheckPassword(password);
+            int score = service.CheckPassword(password);
+            return score < 3 ? BadRequest(score) : Ok(score);
 
         }
 
         [HttpPost]
-        //public ActionResult<User> Post([FromBody] User user)
-        //{
-        //    User newUser = service.AddUser(user);
-        //    return CreatedAtAction(nameof(Get), new { id = user.UserId }, newUser);
-
-        //}
+     
         public async Task<ActionResult<UserDTO>> Post([FromBody] RegisterUserDTO user)
         {
-            User newUser = _Mapper.Map<RegisterUserDTO, User>(user);
-            User userDTO = await service.AddUser(newUser);
-
-            UserDTO newUserDTO = _Mapper.Map<User, UserDTO>(userDTO);//////////////////////////////////////////////////////////
-            if (newUserDTO != null)
-                return CreatedAtAction(nameof(Get), new { id = user.UserName }, newUserDTO);
-            else
-                if (!ModelState.IsValid)
-
+            try
             {
+                User newUser = _Mapper.Map<RegisterUserDTO, User>(user);
+                User userDTO = await service.AddUser(newUser);
 
-                var errors = ModelState.SelectMany(ms => ms.Value.Errors)
+                UserDTO newUserDTO = _Mapper.Map<User, UserDTO>(userDTO);//////////////////////////////////////////////////////////
+                if (newUserDTO != null)
+                    return CreatedAtAction(nameof(Get), new { id = user.UserName }, newUserDTO);
+                else
+                    if (!ModelState.IsValid)
 
-                .Select(error => error.ErrorMessage)
+                {
 
-                .ToList();
+                    var errors = ModelState.SelectMany(ms => ms.Value.Errors)
 
-                return BadRequest(errors); // מחזיר את השגיאות
+                    .Select(error => error.ErrorMessage)
 
+                    .ToList();
+
+                    return BadRequest(errors); // מחזיר את השגיאות
+
+                }
+
+
+                return BadRequest("password week");
             }
-
-
-            return BadRequest(newUserDTO);
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-
         [HttpPost("login")]
         public async Task<ActionResult<UserDTO>> PostLogin([FromQuery] string UserName, string Password)
         {
@@ -122,20 +112,38 @@ namespace Shope.Controllers
 
 
         }
-        // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public async Task Put(int id, [FromBody] UserDTO value)
+        public async Task<ActionResult<User>> Put(int id, [FromBody] RegisterUserDTO value)
         {
-            User user = _Mapper.Map<UserDTO, User>(value);
-            await service.UpdateUser(id, user);
+
+            User DuplicateUser = await service.ValidateDuplicateUser(value.UserName, value.password);
+            if (DuplicateUser != null && DuplicateUser.UserId != id)
+            {
+                return Conflict("Duplicate User");
+            }
+            int score = service.CheckPassword(value.password);
+            if (score < 3)
+            {
+                return UnprocessableEntity("week password");
+            }
+
+            User user = _Mapper.Map<RegisterUserDTO, User>(value);
+            User userUpdate = await service.updateuser(id, DuplicateUser != null ? DuplicateUser : user);
+            if (userUpdate != null)
+                return Ok(userUpdate);
+            else
+                return BadRequest();
+
+
+
 
         }
 
         // DELETE api/<UserController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            
-        }
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+
+        //}
     }
 }

@@ -56,6 +56,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Host.UseNLog();
+builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
