@@ -65,7 +65,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Add("Content-Security-Policy",
+    "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' wss://localhost:44335 http://localhost:51314 ws://localhost:51314;");
+    await next();
+});
 // Configure the HTTP request pipeline.
 app.UseRatingMiddleware();
 //app.TryCatchMiddleware();
